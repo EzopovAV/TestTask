@@ -73,6 +73,9 @@
     <Compile Include="Broker.xaml.cs">
       <DependentUpon>Broker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StockPriceProvider.cs" />
+    <Compile Include="SystemCover\Interfaces\IRandom.cs" />
+    <Compile Include="SystemCover\RandomDefault.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -81,6 +84,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interfaces\IStockPriceProvider.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -121,5 +125,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

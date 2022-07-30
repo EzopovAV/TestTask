@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamingChart", "StreamingChart.csproj", "{B9CF160B-53AA-42A2-BE6E-B05C4ABFDD00}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamingChart.Tests", "..\StreamingChart.Tests\StreamingChart.Tests.csproj", "{97D7F442-0F9C-40C2-B11D-2AF4159D3579}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B9CF160B-53AA-42A2-BE6E-B05C4ABFDD00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9CF160B-53AA-42A2-BE6E-B05C4ABFDD00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9CF160B-53AA-42A2-BE6E-B05C4ABFDD00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97D7F442-0F9C-40C2-B11D-2AF4159D3579}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97D7F442-0F9C-40C2-B11D-2AF4159D3579}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97D7F442-0F9C-40C2-B11D-2AF4159D3579}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97D7F442-0F9C-40C2-B11D-2AF4159D3579}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
