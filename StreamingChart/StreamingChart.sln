@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamingChart", "StreamingChart.csproj", "{B9CF160B-53AA-42A2-BE6E-B05C4ABFDD00}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9CF160B-53AA-42A2-BE6E-B05C4ABFDD00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9CF160B-53AA-42A2-BE6E-B05C4ABFDD00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9CF160B-53AA-42A2-BE6E-B05C4ABFDD00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9CF160B-53AA-42A2-BE6E-B05C4ABFDD00}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {134EB170-35BE-4F34-89B4-FE353A703AE7}
+	EndGlobalSection
+EndGlobal

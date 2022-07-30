@@ -1,0 +1,49 @@
+﻿<Window x:Class="StreamingChart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StreamingChart"
+        xmlns:properties="clr-namespace:StreamingChart.Properties"
+        mc:Ignorable="d"
+		WindowStartupLocation="CenterScreen"
+        Title="{x:Static properties:Resources.MainWindowTitle}" Height="450" Width="800">
+	<Window.Resources>
+		<BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+		
+	</Window.Resources>
+	<DockPanel>
+		<Grid DockPanel.Dock="Right" Visibility="{
+						Binding IsChecked, ElementName=ShowBrokersCheckBox, 
+						Converter={StaticResource BooleanToVisibility}}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Text="{x:Static properties:Resources.BrokersPanelTitle}" HorizontalAlignment="Center"/>
+			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
+				<StackPanel>
+					<local:Broker/>
+					<local:Broker/>
+				</StackPanel>
+			</ScrollViewer>
+        </Grid>
+		<Grid DockPanel.Dock="Top">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<CheckBox Grid.Column="0" Content="{x:Static properties:Resources.GetRealTimeData}"/>
+			<CheckBox Grid.Column="1" Content="{x:Static properties:Resources.ShowAverageValue}"/>
+			<CheckBox Grid.Column="2" Content="{x:Static properties:Resources.ShowBrokers}" Name="ShowBrokersCheckBox"/>
+		</Grid>
+		<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+			<Button Content="{x:Static properties:Resources.SaveCurrentData}"/>
+			<Button Content="{x:Static properties:Resources.LoadData}"/>
+	    </StackPanel>
+
+		<WpfPlot></WpfPlot>
+        
+    </DockPanel>
+</Window>
