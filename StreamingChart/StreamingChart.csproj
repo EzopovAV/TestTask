@@ -73,6 +73,10 @@
     <Compile Include="Broker.xaml.cs">
       <DependentUpon>Broker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IStockObserver.cs" />
+    <Compile Include="Models\Sample.cs" />
+    <Compile Include="Models\Sequence.cs" />
+    <Compile Include="StockObserver.cs" />
     <Compile Include="StockPriceProvider.cs" />
     <Compile Include="SystemCover\Interfaces\IRandom.cs" />
     <Compile Include="SystemCover\RandomDefault.cs" />
