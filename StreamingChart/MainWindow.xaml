@@ -22,10 +22,22 @@
 			</Grid.RowDefinitions>
 			<TextBlock Grid.Row="0" Text="{x:Static properties:Resources.BrokersPanelTitle}" HorizontalAlignment="Center"/>
 			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-				<StackPanel>
-					<local:Broker/>
-					<local:Broker/>
-				</StackPanel>
+				<!--<StackPanel>
+					<local:BrokerView/>
+					<local:BrokerView/>
+				</StackPanel>-->
+				<ItemsControl ItemsSource="{Binding Brokers}">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel IsItemsHost="True"></StackPanel>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<local:BrokerView/>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
 			</ScrollViewer>
         </Grid>
 		<Grid DockPanel.Dock="Top">
@@ -34,8 +46,8 @@
 				<ColumnDefinition/>
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<CheckBox Grid.Column="0" Content="{x:Static properties:Resources.GetRealTimeData}"/>
-			<CheckBox Grid.Column="1" Content="{x:Static properties:Resources.ShowAverageValue}"/>
+			<CheckBox Grid.Column="0" Content="{x:Static properties:Resources.GetRealTimeData}" IsChecked="{Binding GetRealTimeData}"/>
+			<CheckBox Grid.Column="1" Content="{x:Static properties:Resources.ShowAverageValue}" IsChecked="{Binding ShowAverageValue}"/>
 			<CheckBox Grid.Column="2" Content="{x:Static properties:Resources.ShowBrokers}" Name="ShowBrokersCheckBox"/>
 		</Grid>
 		<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -43,7 +55,8 @@
 			<Button Content="{x:Static properties:Resources.LoadData}"/>
 	    </StackPanel>
 
-		<WpfPlot></WpfPlot>
+		<!--<WpfPlot></WpfPlot>-->
+		<ContentControl Content="{Binding Path=ChartWpfPlot}"></ContentControl>
         
     </DockPanel>
 </Window>

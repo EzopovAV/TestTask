@@ -1,8 +1,8 @@
 ﻿namespace StreamingChart
 {
-	public partial class Broker
+	public partial class BrokerView
 	{
-		public Broker()
+		public BrokerView()
 		{
 			InitializeComponent();
 		}
