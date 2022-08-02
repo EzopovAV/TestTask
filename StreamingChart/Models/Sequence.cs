@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace StreamingChart.Models
@@ -10,10 +11,14 @@ namespace StreamingChart.Models
 		private int _tail = -1;
 		private int _length;
 
-		public Sequence(int length)
+		public Sequence(int capacity)
 		{
-			_samples = new T[length];
-			Capacity = length;
+			if (capacity < 1)
+			{
+				throw new ArgumentException(@"Capacity can not be less that 1", nameof(capacity));
+			}
+			_samples = new T[capacity];
+			Capacity = capacity;
 		}
 
 		public int Length => _length;
@@ -36,10 +41,17 @@ namespace StreamingChart.Models
 
 		public IEnumerator<T> GetEnumerator()
 		{
-			var currentIndex = _head - 1;
+			if (_length == 0)
+			{
+				yield break;
+			}
+
+			var currentIndex = _head;
+
+			yield return _samples[currentIndex];
 			while (currentIndex != _tail)
 			{
-				currentIndex = currentIndex == _tail ? _head : currentIndex + 1;
+				currentIndex = GetNextIndex(currentIndex);
 				yield return _samples[currentIndex];
 			}
 		}

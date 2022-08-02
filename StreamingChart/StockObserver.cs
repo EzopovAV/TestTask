@@ -33,7 +33,7 @@ namespace StreamingChart
 			try
 			{
 				newSample.StockPrice = _stockPriceProvider.GetCurrentStockPrice();
-				sequence?.PutNewSample(newSample);
+				sequence.PutNewSample(newSample);
 
 				return true;
 			}

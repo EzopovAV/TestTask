@@ -8,7 +8,7 @@ namespace StreamingChart.Tests
 	public class SequenceTests
 	{
 		[Test]
-		[TestCase(0)]
+		[TestCase(1)]
 		[TestCase(17)]
 		public void CreatingTest(int expectedCapacity)
 		{
@@ -52,10 +52,18 @@ namespace StreamingChart.Tests
 		}
 
 		[Test]
-		public void OverflowTest()
+		[TestCase(0)]
+		[TestCase(1)]
+		[TestCase(2)]
+		[TestCase(3)]
+		[TestCase(4)]
+		[TestCase(5)]
+		[TestCase(6)]
+		[TestCase(7)]
+		public void OverflowTest(int overflow)
 		{
 			var inputArray = new[] { 0, 1, 2, 3, 4, 5, 6, 7 };
-			var sequence = new Sequence<int>(inputArray.Length / 2);
+			var sequence = new Sequence<int>(inputArray.Length - overflow);
 
 			foreach (var t in inputArray)
 			{
@@ -63,7 +71,7 @@ namespace StreamingChart.Tests
 			}
 
 			var result = sequence.ToArray();
-			var expectedArray = inputArray.Skip(4).ToArray();
+			var expectedArray = inputArray.Skip(overflow).ToArray();
 
 			Assert.AreEqual(result, expectedArray);
 		}
