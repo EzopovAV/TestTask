@@ -4,8 +4,9 @@ namespace StreamingChart.Models
 {
 	public class Sample
 	{
-		public decimal StockPrice;
-		public string CompanyName;
-		public DateTime SamplingTime;
+		public int Id { get; set; }
+		public decimal StockPrice { get; set; }
+		public string CompanyName { get; set; }
+		public DateTime SamplingTime { get; set; }
 	}
 }
