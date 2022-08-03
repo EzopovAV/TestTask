@@ -115,6 +115,15 @@ namespace StreamingChart.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Get data in real time.
         /// </summary>
         public static string GetRealTimeData {
@@ -138,6 +147,24 @@ namespace StreamingChart.Properties {
         public static string MainWindowTitle {
             get {
                 return ResourceManager.GetString("MainWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Current data saved in database.
+        /// </summary>
+        public static string MessegeAfterSavingData {
+            get {
+                return ResourceManager.GetString("MessegeAfterSavingData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Notification.
+        /// </summary>
+        public static string Notification {
+            get {
+                return ResourceManager.GetString("Notification", resourceCulture);
             }
         }
         

@@ -10,6 +10,10 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Windows;
+using StreamingChart.Database;
+using StreamingChart.Database.Interfaces;
+using StreamingChart.Properties;
 
 namespace StreamingChart
 {
@@ -20,9 +24,13 @@ namespace StreamingChart
 		private const string CompanyName = "Perm Dynamics";
 		
 		private readonly IStockObserver _stockObserver;
+		private readonly IDbProvider _dbProvider;
 		private readonly Timer _timerRefreshStockPrice;
 
-		private Sequence<Sample> _sequence;
+		private Sequence<Sample> _sequenceRealTime;
+		private Sequence<Sample> _sequenceDbLoaded;
+		private Sequence<Sample> _sequenceCurrent;
+
 		private bool _plotPrepared;
 		private ScatterPlot _scatterPlot;
 		private ScatterPlot _averagePlot;
@@ -45,8 +53,10 @@ namespace StreamingChart
 				}
 			};
 
-			_sequence = new Sequence<Sample>(BufferSize);
+			_sequenceRealTime = new Sequence<Sample>(BufferSize);
 			_stockObserver = new StockObserver(new StockPriceProvider(new RandomDefault()), CompanyName);
+
+			_dbProvider = new DbProvider();
 
 			_timerRefreshStockPrice = new Timer(RefreshStockPrice);
 		}
@@ -77,7 +87,19 @@ namespace StreamingChart
 			set
 			{
 				_showAverageValue = value;
+				RefreshWpfPlot(_sequenceCurrent);
 				OnPropertyChanged(nameof(_showAverageValue));
+			}
+		}
+
+		private bool _isBusy;
+		public bool IsBusy
+		{
+			get => _isBusy;
+			set
+			{
+				_isBusy = value;
+				OnPropertyChanged(nameof(IsBusy));
 			}
 		}
 
@@ -87,28 +109,97 @@ namespace StreamingChart
 		}
 		#endregion
 
+		#region Commands
+
+		private RelayCommand _saveSamplesCommand;
+		public RelayCommand SaveSamplesCommand =>
+			_saveSamplesCommand ??
+			(_saveSamplesCommand = new RelayCommand(obj =>
+			{
+				try
+				{
+					IsBusy = true;
+					_dbProvider.AddSamples(_sequenceRealTime);
+
+					MessageBox.Show(Resources.MessegeAfterSavingData, Resources.Notification,
+						MessageBoxButton.OK, MessageBoxImage.Information);
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.Message, Resources.Error, MessageBoxButton.OK,
+						MessageBoxImage.Error);
+				}
+				finally
+				{
+					IsBusy = false;
+				}
+			}));
+
+		private RelayCommand _loadSamplesCommand;
+		public RelayCommand LoadSamplesCommand =>
+			_loadSamplesCommand ??
+			(_loadSamplesCommand = new RelayCommand(obj =>
+			{
+				try
+				{
+					IsBusy = true;
+
+					var samples = _dbProvider.GetSamples(100).ToArray();
+					_sequenceDbLoaded = new Sequence<Sample>(samples.Count());
+					foreach (var sample in samples)
+					{
+						_sequenceDbLoaded.PutNewSample(sample);
+					}
+
+					_sequenceCurrent = _sequenceDbLoaded;
+					RefreshWpfPlot(_sequenceDbLoaded);
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.Message, Resources.Error, MessageBoxButton.OK,
+						MessageBoxImage.Error);
+				}
+				finally
+				{
+					IsBusy = false;
+				}
+			}));
+
+		#endregion
+
 		private void RefreshStockPrice(object obj)
 		{
-			_stockObserver.TryRefresh(ref _sequence);
+			_stockObserver.TryRefresh(ref _sequenceRealTime);
+			_sequenceCurrent = _sequenceRealTime;
+
+			RefreshWpfPlot(_sequenceRealTime);
+		}
+
+		private void RefreshWpfPlot(Sequence<Sample> sequence)
+		{
+			if (sequence == null)
+			{
+				return;
+			}
 
 			if (!_plotPrepared)
 			{
 				_scatterPlot = ChartWpfPlot.Plot.AddScatter(
-					_sequence.Select(s => s.SamplingTime.ToOADate()).ToArray(),
-					_sequence.Select(s => (double)s.StockPrice).ToArray());
+					sequence.Select(s => s.SamplingTime.ToOADate()).ToArray(),
+					sequence.Select(s => (double)s.StockPrice).ToArray());
 				ChartWpfPlot.Plot.XAxis.DateTimeFormat(true);
 				_plotPrepared = true;
 			}
 
 			if (_showAverageValue)
 			{
-				var averageValue = (double)_sequence.Average(s => s.StockPrice);
+				var averageValue = (double)sequence.Average(s => s.StockPrice);
 
 				if (_averagePlot == null)
 				{
 					_averagePlot = ChartWpfPlot.Plot.AddScatter(
-						_sequence.Select(s => s.SamplingTime.ToOADate()).ToArray(),
-						_sequence.Select(s => averageValue).ToArray(),
+						sequence.Select(s => s.SamplingTime.ToOADate()).ToArray(),
+						sequence.Select(s => averageValue).ToArray(),
 						markerSize: 0);
 
 					ChartWpfPlot.Plot.AddText(
@@ -118,8 +209,8 @@ namespace StreamingChart
 				else
 				{
 					_averagePlot.Update(
-						_sequence.Select(s => s.SamplingTime.ToOADate()).ToArray(),
-						_sequence.Select(s => averageValue).ToArray());
+						sequence.Select(s => s.SamplingTime.ToOADate()).ToArray(),
+						sequence.Select(s => averageValue).ToArray());
 
 					ChartWpfPlot.Plot.Clear(typeof(Text));
 					ChartWpfPlot.Plot.AddText(
@@ -135,8 +226,8 @@ namespace StreamingChart
 			}
 
 			_scatterPlot.Update(
-				_sequence.Select(s => s.SamplingTime.ToOADate()).ToArray(),
-				_sequence.Select(s => (double)s.StockPrice).ToArray());
+				sequence.Select(s => s.SamplingTime.ToOADate()).ToArray(),
+				sequence.Select(s => (double)s.StockPrice).ToArray());
 
 			ChartWpfPlot.Plot.AxisAuto();
 			ChartWpfPlot.Dispatcher.Invoke(() => ChartWpfPlot.Refresh());

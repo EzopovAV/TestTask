@@ -107,6 +107,7 @@
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Models\Sample.cs" />
     <Compile Include="Models\Sequence.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="StockObserver.cs" />
     <Compile Include="StockPriceProvider.cs" />
     <Compile Include="SystemCover\Interfaces\IRandom.cs" />

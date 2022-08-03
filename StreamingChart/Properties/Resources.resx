@@ -135,6 +135,9 @@
   <data name="Broker_Stock" xml:space="preserve">
     <value>Stock</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="GetRealTimeData" xml:space="preserve">
     <value>Get data in real time</value>
   </data>
@@ -143,6 +146,12 @@
   </data>
   <data name="MainWindowTitle" xml:space="preserve">
     <value>Streaming chart</value>
+  </data>
+  <data name="MessegeAfterSavingData" xml:space="preserve">
+    <value>Current data saved in database</value>
+  </data>
+  <data name="Notification" xml:space="preserve">
+    <value>Notification</value>
   </data>
   <data name="SaveCurrentData" xml:space="preserve">
     <value>Save current data to DB</value>
